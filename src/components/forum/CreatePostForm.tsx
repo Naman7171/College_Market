@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Upload } from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { Upload, X } from 'lucide-react';
 import { Input } from '../common/Input';
 import { Button } from '../common/Button';
 import type { ForumPost, User } from '../../types';
@@ -12,8 +12,10 @@ export const CreatePostForm: React.FC<CreatePostFormProps> = ({ onSubmit }) => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [category, setCategory] = useState('general');
-  const [imageUrl, setImageUrl] = useState('');
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string>('');
   const [isLoading, setIsLoading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Mock user - in a real app, this would come from auth context
   const mockUser: User = {
@@ -22,6 +24,26 @@ export const CreatePostForm: React.FC<CreatePostFormProps> = ({ onSubmit }) => {
     email: 'john@example.com',
     role: 'student',
     avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=100&q=80'
+  };
+
+  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setSelectedImage(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleRemoveImage = () => {
+    setSelectedImage(null);
+    setImagePreview('');
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -34,6 +56,7 @@ export const CreatePostForm: React.FC<CreatePostFormProps> = ({ onSubmit }) => {
       category,
       tags: [],
       author: mockUser,
+      image: imagePreview || undefined
     };
 
     try {
@@ -41,7 +64,8 @@ export const CreatePostForm: React.FC<CreatePostFormProps> = ({ onSubmit }) => {
       setTitle('');
       setContent('');
       setCategory('general');
-      setImageUrl('');
+      setSelectedImage(null);
+      setImagePreview('');
     } finally {
       setIsLoading(false);
     }
@@ -49,7 +73,7 @@ export const CreatePostForm: React.FC<CreatePostFormProps> = ({ onSubmit }) => {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6 w-full max-w-lg">
-      <h2 className="text-xl font-bold">Create New Post</h2>
+      <h2 className="text-xl font-bold text-gray-900 dark:text-white">Create New Post</h2>
 
       <Input
         label="Title"
@@ -60,26 +84,26 @@ export const CreatePostForm: React.FC<CreatePostFormProps> = ({ onSubmit }) => {
       />
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
           Content
         </label>
         <textarea
           value={content}
           onChange={(e) => setContent(e.target.value)}
-          className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 min-h-[120px]"
+          className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white min-h-[120px]"
           placeholder="Write your post content..."
           required
         />
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
           Category
         </label>
         <select
           value={category}
           onChange={(e) => setCategory(e.target.value)}
-          className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500"
+          className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white"
         >
           <option value="general">General</option>
           <option value="technical">Technical</option>
@@ -89,25 +113,41 @@ export const CreatePostForm: React.FC<CreatePostFormProps> = ({ onSubmit }) => {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
           Image (optional)
         </label>
         <div className="flex items-center gap-4">
+          <input
+            type="file"
+            ref={fileInputRef}
+            accept="image/*"
+            onChange={handleImageSelect}
+            className="hidden"
+          />
           <Button
             type="button"
             variant="outline"
             className="flex items-center gap-2"
-            onClick={() => {/* Image upload logic */}}
+            onClick={() => fileInputRef.current?.click()}
           >
             <Upload className="w-4 h-4" />
             Upload Image
           </Button>
-          {imageUrl && (
-            <img
-              src={imageUrl}
-              alt="Preview"
-              className="w-16 h-16 object-cover rounded"
-            />
+          {imagePreview && (
+            <div className="relative">
+              <img
+                src={imagePreview}
+                alt="Preview"
+                className="w-16 h-16 object-cover rounded"
+              />
+              <button
+                type="button"
+                onClick={handleRemoveImage}
+                className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
           )}
         </div>
       </div>

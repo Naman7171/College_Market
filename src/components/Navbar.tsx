@@ -1,18 +1,23 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
+import { useThemeStore } from '../store/themeStore';
 import { Bell, MessageCircle, Sun, Moon, Menu, X } from 'lucide-react';
 import { NotificationPanel } from './layout/NotificationPanel';
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = React.useState(false);
-  const [isDark, setIsDark] = React.useState(false);
+  const { isDark, toggleTheme } = useThemeStore();
   const { isAuthenticated, user, logout } = useAuthStore();
 
-  const toggleTheme = () => {
-    setIsDark(!isDark);
-    document.documentElement.classList.toggle('dark');
-  };
+  React.useEffect(() => {
+    // Initialize theme on mount
+    if (isDark) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [isDark]);
 
   return (
     <nav className="bg-white dark:bg-gray-900 shadow-lg fixed w-full z-50">
@@ -56,16 +61,24 @@ export const Navbar = () => {
             
             <button
               onClick={toggleTheme}
-              className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full"
+              className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full text-gray-600 dark:text-gray-300"
+              aria-label="Toggle theme"
             >
               {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
             </button>
           </div>
 
-          <div className="md:hidden flex items-center">
+          <div className="md:hidden flex items-center space-x-2">
+            <button
+              onClick={toggleTheme}
+              className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full text-gray-600 dark:text-gray-300"
+              aria-label="Toggle theme"
+            >
+              {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+            </button>
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+              className="p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800"
             >
               {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -75,12 +88,27 @@ export const Navbar = () => {
 
       {/* Mobile menu */}
       {isOpen && (
-        <div className="md:hidden">
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <Link to="/marketplace" className="mobile-nav-link">Marketplace</Link>
-            <Link to="/housing" className="mobile-nav-link">Housing</Link>
-            <Link to="/events" className="mobile-nav-link">Events</Link>
-            <Link to="/forum" className="mobile-nav-link">Forum</Link>
+        <div className="md:hidden border-t border-gray-100 dark:border-gray-800">
+          <div className="px-2 pt-2 pb-3 space-y-1">
+            <Link to="/marketplace" className="mobile-nav-link block">Marketplace</Link>
+            <Link to="/housing" className="mobile-nav-link block">Housing</Link>
+            <Link to="/events" className="mobile-nav-link block">Events</Link>
+            <Link to="/forum" className="mobile-nav-link block">Community</Link>
+            {isAuthenticated ? (
+              <button 
+                onClick={logout}
+                className="w-full text-left mobile-nav-link"
+              >
+                Logout
+              </button>
+            ) : (
+              <Link 
+                to="/login"
+                className="mobile-nav-link block"
+              >
+                Login
+              </Link>
+            )}
           </div>
         </div>
       )}

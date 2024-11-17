@@ -15,16 +15,16 @@ export const TrendingTopics: React.FC = () => {
     <Card className="p-4">
       <div className="flex items-center gap-2 mb-4">
         <TrendingUp className="w-5 h-5 text-indigo-600" />
-        <h2 className="font-semibold">Trending Topics</h2>
+        <h2 className="font-semibold text-gray-900 dark:text-white">Trending Topics</h2>
       </div>
       <div className="space-y-3">
         {trends.map((trend) => (
           <div
             key={trend.id}
-            className="flex items-center justify-between hover:bg-gray-50 p-2 rounded-lg cursor-pointer"
+            className="flex items-center justify-between hover:bg-gray-100 dark:hover:bg-gray-700 p-2 rounded-lg cursor-pointer text-gray-700 dark:text-gray-200"
           >
             <span className="text-sm font-medium">#{trend.topic}</span>
-            <span className="text-xs text-gray-500">{trend.posts} posts</span>
+            <span className="text-xs text-gray-500 dark:text-gray-400">{trend.posts} posts</span>
           </div>
         ))}
       </div>

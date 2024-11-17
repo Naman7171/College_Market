@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Search, Users, Calendar, Lightbulb } from 'lucide-react';
 import { Card } from '../components/common/Card';
 import { Modal } from '../components/common/Modal';
@@ -7,7 +7,6 @@ import { PostList } from '../components/forum/PostList';
 import { TrendingTopics } from '../components/forum/TrendingTopics';
 import type { ForumPost } from '../types';
 
-// Sample data
 const initialPosts: ForumPost[] = [
   {
     id: '1',
@@ -36,7 +35,23 @@ const initialPosts: ForumPost[] = [
           role: 'student',
           avatar: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=100&q=80'
         },
-        createdAt: '2024-03-15T09:15:00Z'
+        createdAt: '2024-03-15T09:15:00Z',
+        upvotes: 2,
+        downvotes: 0
+      },
+      {
+        id: 'r2',
+        content: 'Yes, all departments are affected. The new schedule will be posted by tomorrow morning.',
+        author: {
+          id: 'prof1',
+          name: 'Dr. Sarah Wilson',
+          email: 'sarah.wilson@university.edu',
+          role: 'faculty',
+          avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&q=80'
+        },
+        createdAt: '2024-03-15T09:30:00Z',
+        upvotes: 5,
+        downvotes: 0
       }
     ],
     image: 'https://images.unsplash.com/photo-1522661067900-ab829854a57f?auto=format&fit=crop&w=800&q=80'
@@ -68,7 +83,9 @@ const initialPosts: ForumPost[] = [
           role: 'student',
           avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&q=80'
         },
-        createdAt: '2024-03-14T16:00:00Z'
+        createdAt: '2024-03-14T16:00:00Z',
+        upvotes: 3,
+        downvotes: 0
       }
     ]
   },
@@ -99,6 +116,7 @@ export const Forum = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [sortBy, setSortBy] = useState<'newest' | 'popular'>('newest');
   const [searchQuery, setSearchQuery] = useState('');
+  const replyFormRef = useRef<HTMLDivElement>(null);
 
   const categories = ['all', 'announcements', 'academic', 'events', 'general'];
 
@@ -121,6 +139,32 @@ export const Forum = () => {
     ));
   };
 
+  const handleReply = (postId: string, content: string) => {
+    setPosts(prev => prev.map(post => {
+      if (post.id === postId) {
+        const newReply = {
+          id: Date.now().toString(),
+          content,
+          author: {
+            id: 'current-user',
+            name: 'Current User',
+            email: 'user@university.edu',
+            role: 'student',
+            avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=100&q=80'
+          },
+          createdAt: new Date().toISOString(),
+          upvotes: 0,
+          downvotes: 0
+        };
+        return {
+          ...post,
+          replies: [...post.replies, newReply]
+        };
+      }
+      return post;
+    }));
+  };
+
   const filteredPosts = posts
     .filter(post => 
       (selectedCategory === 'all' || post.category === selectedCategory) &&
@@ -137,26 +181,25 @@ export const Forum = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-        {/* Left Sidebar */}
+        {/* Left Sidebar - Mobile Collapsible */}
         <div className="lg:col-span-1">
-          <Card className="p-4 mb-6">
-            <h2 className="font-semibold mb-4">Quick Links</h2>
-            <div className="space-y-2">
-              <a href="#" className="flex items-center gap-2 p-2 hover:bg-gray-50 rounded-lg">
-                <Users className="w-5 h-5 text-indigo-600" />
-                <span>Study Groups</span>
-              </a>
-              <a href="#" className="flex items-center gap-2 p-2 hover:bg-gray-50 rounded-lg">
-                <Calendar className="w-5 h-5 text-indigo-600" />
-                <span>Events</span>
-              </a>
-              <a href="#" className="flex items-center gap-2 p-2 hover:bg-gray-50 rounded-lg">
-                <Lightbulb className="w-5 h-5 text-indigo-600" />
-                <span>Resources</span>
-              </a>
+          <div className="lg:hidden mb-4">
+            <details className="bg-white dark:bg-gray-800 rounded-lg shadow-md">
+              <summary className="p-4 cursor-pointer font-semibold">Quick Links & Trending</summary>
+              <div className="p-4 border-t dark:border-gray-700">
+                <QuickLinks />
+                <div className="mt-4">
+                  <TrendingTopics />
+                </div>
+              </div>
+            </details>
+          </div>
+          <div className="hidden lg:block">
+            <QuickLinks />
+            <div className="mt-6">
+              <TrendingTopics />
             </div>
-          </Card>
-          <TrendingTopics />
+          </div>
         </div>
 
         {/* Main Content */}
@@ -164,10 +207,10 @@ export const Forum = () => {
           {/* Header Section */}
           <div className="mb-8 space-y-4">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-              <h1 className="text-2xl font-bold">Community Forum</h1>
+              <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Community Forum</h1>
               <button
                 onClick={() => setIsModalOpen(true)}
-                className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+                className="w-full sm:w-auto px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
               >
                 Create Post
               </button>
@@ -182,13 +225,13 @@ export const Forum = () => {
                   placeholder="Search posts..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  className="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent dark:bg-gray-800 dark:border-gray-700 dark:text-white"
                 />
               </div>
               <select
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
-                className="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500"
+                className="w-full sm:w-auto px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white"
               >
                 {categories.map(category => (
                   <option key={category} value={category}>
@@ -199,7 +242,7 @@ export const Forum = () => {
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value as 'newest' | 'popular')}
-                className="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500"
+                className="w-full sm:w-auto px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white"
               >
                 <option value="newest">Newest</option>
                 <option value="popular">Popular</option>
@@ -211,7 +254,8 @@ export const Forum = () => {
           <PostList 
             posts={filteredPosts}
             onLike={handleLike}
-            onReply={(postId) => console.log('Reply to:', postId)}
+            onReply={handleReply}
+            replyFormRef={replyFormRef}
           />
         </div>
       </div>
@@ -223,3 +267,23 @@ export const Forum = () => {
     </div>
   );
 };
+
+const QuickLinks = () => (
+  <Card className="p-4">
+    <h2 className="font-semibold mb-4 text-gray-900 dark:text-white">Quick Links</h2>
+    <div className="space-y-2">
+      <a href="#" className="flex items-center gap-2 p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-gray-700 dark:text-gray-200">
+        <Users className="w-5 h-5 text-indigo-600" />
+        <span>Study Groups</span>
+      </a>
+      <a href="#" className="flex items-center gap-2 p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-gray-700 dark:text-gray-200">
+        <Calendar className="w-5 h-5 text-indigo-600" />
+        <span>Events</span>
+      </a>
+      <a href="#" className="flex items-center gap-2 p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-gray-700 dark:text-gray-200">
+        <Lightbulb className="w-5 h-5 text-indigo-600" />
+        <span>Resources</span>
+      </a>
+    </div>
+  </Card>
+);
