@@ -6,12 +6,11 @@ import { Marketplace } from './pages/Marketplace';
 import { Housing } from './pages/Housing';
 import { Login } from './pages/Login';
 import { Forum } from './pages/Forum';
-// import { Events } from './pages/Events';
 
 function App() {
   return (
     <Router>
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+      <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200">
         {/* Navbar remains sticky at the top */}
         <Navbar />
         
@@ -23,7 +22,6 @@ function App() {
             <Route path="/housing" element={<Housing />} />
             <Route path="/login" element={<Login />} />
             <Route path="/forum" element={<Forum />} />
-            {/* <Route path="/events" element={<Events />} /> */}
           </Routes>
         </main>
       </div>

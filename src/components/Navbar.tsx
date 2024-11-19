@@ -11,7 +11,6 @@ export const Navbar = () => {
   const { isAuthenticated, user, logout } = useAuthStore();
 
   React.useEffect(() => {
-    // Initialize theme on mount
     if (isDark) {
       document.documentElement.classList.add('dark');
     } else {
@@ -20,12 +19,12 @@ export const Navbar = () => {
   }, [isDark]);
 
   return (
-    <nav className="bg-white dark:bg-gray-900 shadow-lg fixed w-full z-50">
+    <nav className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 fixed w-full z-50 transition-colors duration-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <Link to="/" className="flex items-center">
-              <span className="text-xl font-bold text-indigo-600 dark:text-indigo-400">
+              <span className="text-xl font-bold text-primary-600 dark:text-primary-400">
                 CollegeMarket
               </span>
             </Link>
@@ -40,12 +39,12 @@ export const Navbar = () => {
             {isAuthenticated ? (
               <>
                 <NotificationPanel />
-                <Link to="/messages" className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full">
+                <Link to="/messages" className="p-2 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-full text-gray-600 dark:text-gray-300 transition-colors">
                   <MessageCircle className="w-5 h-5" />
                 </Link>
                 <button 
                   onClick={logout}
-                  className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700"
+                  className="bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition-colors"
                 >
                   Logout
                 </button>
@@ -53,7 +52,7 @@ export const Navbar = () => {
             ) : (
               <Link 
                 to="/login"
-                className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700"
+                className="bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition-colors"
               >
                 Login
               </Link>
@@ -61,24 +60,24 @@ export const Navbar = () => {
             
             <button
               onClick={toggleTheme}
-              className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full text-gray-600 dark:text-gray-300"
+              className="p-2 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-full text-gray-600 dark:text-gray-300 transition-colors"
               aria-label="Toggle theme"
             >
-              {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+              {isDark ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
             </button>
           </div>
 
           <div className="md:hidden flex items-center space-x-2">
             <button
               onClick={toggleTheme}
-              className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full text-gray-600 dark:text-gray-300"
+              className="p-2 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-full text-gray-600 dark:text-gray-300 transition-colors"
               aria-label="Toggle theme"
             >
-              {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+              {isDark ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
             </button>
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800"
+              className="p-2 rounded-md text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
             >
               {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -88,7 +87,7 @@ export const Navbar = () => {
 
       {/* Mobile menu */}
       {isOpen && (
-        <div className="md:hidden border-t border-gray-100 dark:border-gray-800">
+        <div className="md:hidden border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 transition-colors">
           <div className="px-2 pt-2 pb-3 space-y-1">
             <Link to="/marketplace" className="mobile-nav-link block">Marketplace</Link>
             <Link to="/housing" className="mobile-nav-link block">Housing</Link>
