@@ -31,8 +31,17 @@ export const ListingFilters = ({ onFilterChange }: ListingFiltersProps) => {
           <h3 className="font-medium mb-2">Categories</h3>
           {categories.map((category) => (
             <label key={category} className="flex items-center space-x-2 mb-2">
-              <input type="checkbox" className="rounded text-indigo-600" />
-              <span className="text-sm">{category}</span>
+              <input 
+                type="checkbox" 
+                className="w-4 h-4 
+                  text-indigo-600 
+                  bg-white dark:bg-gray-800
+                  border-gray-300 dark:border-gray-700
+                  rounded
+                  focus:ring-indigo-500 focus:ring-2
+                  transition-colors duration-200" 
+              />
+              <span className="text-sm text-gray-700 dark:text-gray-300">{category}</span>
             </label>
           ))}
         </div>
@@ -49,15 +58,30 @@ export const ListingFilters = ({ onFilterChange }: ListingFiltersProps) => {
           <h3 className="font-medium mb-2">Condition</h3>
           {conditions.map((condition) => (
             <label key={condition} className="flex items-center space-x-2 mb-2">
-              <input type="checkbox" className="rounded text-indigo-600" />
-              <span className="text-sm">{condition}</span>
+              <input 
+                type="checkbox" 
+                className="w-4 h-4 
+                  text-indigo-600 
+                  bg-white dark:bg-gray-800
+                  border-gray-300 dark:border-gray-700
+                  rounded
+                  focus:ring-indigo-500 focus:ring-2
+                  transition-colors duration-200" 
+              />
+              <span className="text-sm text-gray-700 dark:text-gray-300">{condition}</span>
             </label>
           ))}
         </div>
 
         <div>
           <h3 className="font-medium mb-2">Sort By</h3>
-          <select className="w-full p-2 border rounded-lg">
+          <select className="w-full p-2 
+            bg-white dark:bg-gray-800 
+            border border-gray-300 dark:border-gray-700 
+            rounded-lg 
+            text-gray-900 dark:text-white
+            focus:ring-2 focus:ring-indigo-500 focus:border-transparent
+            transition-colors duration-200">
             <option>Newest First</option>
             <option>Price: Low to High</option>
             <option>Price: High to Low</option>

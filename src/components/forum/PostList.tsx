@@ -60,7 +60,7 @@ export const PostList: React.FC<PostListProps> = ({ posts, onLike, onReply, repl
                 />
               )}
 
-              <div className="mt-4 flex flex-wrap items-center justify-between border-t border-b border-gray-100 dark:border-gray-700 py-3 gap-2">
+              <div className="mt-4 flex flex-wrap items-center justify-between border-t border-b border-gray-200 dark:border-gray-700 py-3 gap-2">
                 <button 
                   onClick={() => onLike(post.id)}
                   className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
@@ -93,7 +93,7 @@ export const PostList: React.FC<PostListProps> = ({ posts, onLike, onReply, repl
                   </div>
                   <div className="max-h-48 overflow-y-auto pr-2 space-y-4 scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 scrollbar-track-transparent">
                     {post.replies.map((reply) => (
-                      <div key={reply.id} className="flex items-start gap-3 pl-6 border-l-2 border-gray-100 dark:border-gray-700">
+                      <div key={reply.id} className="flex items-start gap-3 pl-6 border-l-2 border-gray-200 dark:border-gray-700">
                         <img
                           src={reply.author.avatar}
                           alt={reply.author.name}
@@ -120,7 +120,15 @@ export const PostList: React.FC<PostListProps> = ({ posts, onLike, onReply, repl
               <div ref={replyFormRef} className="mt-4">
                 <textarea
                   placeholder="Write a reply..."
-                  className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent dark:bg-gray-800 dark:border-gray-700 dark:text-white resize-none"
+                  className="w-full px-3 py-2 
+                    bg-white dark:bg-gray-800 
+                    border border-gray-300 dark:border-gray-700 
+                    rounded-lg 
+                    text-gray-900 dark:text-white
+                    placeholder-gray-500 dark:placeholder-gray-400
+                    focus:ring-2 focus:ring-indigo-500 focus:border-transparent 
+                    resize-none
+                    transition-colors duration-200"
                   rows={3}
                 />
                 <button className="mt-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">

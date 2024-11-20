@@ -21,7 +21,7 @@ export const TrendingTopics: React.FC = () => {
         {trends.map((trend) => (
           <div
             key={trend.id}
-            className="flex items-center justify-between hover:bg-gray-100 dark:hover:bg-gray-700 p-2 rounded-lg cursor-pointer text-gray-700 dark:text-gray-200"
+            className="flex items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-700 p-2 rounded-lg cursor-pointer text-gray-700 dark:text-gray-200 transition-colors duration-200"
           >
             <span className="text-sm font-medium">#{trend.topic}</span>
             <span className="text-xs text-gray-500 dark:text-gray-400">{trend.posts} posts</span>

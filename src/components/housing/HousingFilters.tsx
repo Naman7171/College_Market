@@ -28,8 +28,17 @@ export const HousingFilters = () => {
           <h3 className="font-medium mb-2">Property Type</h3>
           {propertyTypes.map((type) => (
             <label key={type} className="flex items-center space-x-2 mb-2">
-              <input type="checkbox" className="rounded text-indigo-600" />
-              <span className="text-sm">{type}</span>
+              <input 
+                type="checkbox" 
+                className="w-4 h-4 
+                  text-indigo-600 
+                  bg-white dark:bg-gray-800
+                  border-gray-300 dark:border-gray-700
+                  rounded
+                  focus:ring-indigo-500 focus:ring-2
+                  transition-colors duration-200" 
+              />
+              <span className="text-sm text-gray-700 dark:text-gray-300">{type}</span>
             </label>
           ))}
         </div>
@@ -44,7 +53,13 @@ export const HousingFilters = () => {
 
         <div>
           <h3 className="font-medium mb-2">Bedrooms</h3>
-          <select className="w-full p-2 border rounded-lg">
+          <select className="w-full p-2 
+            bg-white dark:bg-gray-800 
+            border border-gray-300 dark:border-gray-700 
+            rounded-lg 
+            text-gray-900 dark:text-white
+            focus:ring-2 focus:ring-indigo-500 focus:border-transparent
+            transition-colors duration-200">
             <option value="">Any</option>
             <option value="0">Studio</option>
             <option value="1">1</option>
@@ -57,8 +72,17 @@ export const HousingFilters = () => {
           <h3 className="font-medium mb-2">Amenities</h3>
           {amenities.map((amenity) => (
             <label key={amenity} className="flex items-center space-x-2 mb-2">
-              <input type="checkbox" className="rounded text-indigo-600" />
-              <span className="text-sm">{amenity}</span>
+              <input 
+                type="checkbox" 
+                className="w-4 h-4 
+                  text-indigo-600 
+                  bg-white dark:bg-gray-800
+                  border-gray-300 dark:border-gray-700
+                  rounded
+                  focus:ring-indigo-500 focus:ring-2
+                  transition-colors duration-200" 
+              />
+              <span className="text-sm text-gray-700 dark:text-gray-300">{amenity}</span>
             </label>
           ))}
         </div>
@@ -66,12 +90,30 @@ export const HousingFilters = () => {
         <div>
           <h3 className="font-medium mb-2">More Filters</h3>
           <label className="flex items-center space-x-2 mb-2">
-            <input type="checkbox" className="rounded text-indigo-600" />
-            <span className="text-sm">Pets Allowed</span>
+            <input 
+              type="checkbox" 
+              className="w-4 h-4 
+                text-indigo-600 
+                bg-white dark:bg-gray-800
+                border-gray-300 dark:border-gray-700
+                rounded
+                focus:ring-indigo-500 focus:ring-2
+                transition-colors duration-200" 
+            />
+            <span className="text-sm text-gray-700 dark:text-gray-300">Pets Allowed</span>
           </label>
           <label className="flex items-center space-x-2 mb-2">
-            <input type="checkbox" className="rounded text-indigo-600" />
-            <span className="text-sm">Available Now</span>
+            <input 
+              type="checkbox" 
+              className="w-4 h-4 
+                text-indigo-600 
+                bg-white dark:bg-gray-800
+                border-gray-300 dark:border-gray-700
+                rounded
+                focus:ring-indigo-500 focus:ring-2
+                transition-colors duration-200" 
+            />
+            <span className="text-sm text-gray-700 dark:text-gray-300">Available Now</span>
           </label>
         </div>
       </div>

@@ -90,7 +90,15 @@ export const CreatePostForm: React.FC<CreatePostFormProps> = ({ onSubmit }) => {
         <textarea
           value={content}
           onChange={(e) => setContent(e.target.value)}
-          className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white min-h-[120px]"
+          className="w-full px-3 py-2 
+            bg-white dark:bg-gray-800 
+            border border-gray-300 dark:border-gray-700 
+            rounded-lg 
+            text-gray-900 dark:text-white
+            placeholder-gray-500 dark:placeholder-gray-400
+            focus:ring-2 focus:ring-indigo-500 focus:border-transparent
+            min-h-[120px]
+            transition-colors duration-200"
           placeholder="Write your post content..."
           required
         />
@@ -103,7 +111,13 @@ export const CreatePostForm: React.FC<CreatePostFormProps> = ({ onSubmit }) => {
         <select
           value={category}
           onChange={(e) => setCategory(e.target.value)}
-          className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white"
+          className="w-full px-3 py-2 
+            bg-white dark:bg-gray-800 
+            border border-gray-300 dark:border-gray-700 
+            rounded-lg 
+            text-gray-900 dark:text-white
+            focus:ring-2 focus:ring-indigo-500 focus:border-transparent
+            transition-colors duration-200"
         >
           <option value="general">General</option>
           <option value="technical">Technical</option>
