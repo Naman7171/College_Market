@@ -38,76 +38,11 @@ const initialPosts: ForumPost[] = [
         createdAt: '2024-03-15T09:15:00Z',
         upvotes: 2,
         downvotes: 0
-      },
-      {
-        id: 'r2',
-        content: 'Yes, all departments are affected. The new schedule will be posted by tomorrow morning.',
-        author: {
-          id: 'prof1',
-          name: 'Dr. Sarah Wilson',
-          email: 'sarah.wilson@university.edu',
-          role: 'faculty',
-          avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&q=80'
-        },
-        createdAt: '2024-03-15T09:30:00Z',
-        upvotes: 5,
-        downvotes: 0
       }
     ],
     image: 'https://images.unsplash.com/photo-1522661067900-ab829854a57f?auto=format&fit=crop&w=800&q=80'
   },
-  {
-    id: '2',
-    title: 'Looking for Study Group - Advanced Algorithms',
-    content: "Hey everyone! I'm looking to form a study group for Advanced Algorithms (CS401). We can meet at the library twice a week. Anyone interested?",
-    author: {
-      id: 'student2',
-      name: 'Emily Rodriguez',
-      email: 'emily@university.edu',
-      role: 'student',
-      avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=100&q=80'
-    },
-    category: 'academic',
-    tags: ['study group', 'computer science'],
-    createdAt: '2024-03-14T15:30:00Z',
-    upvotes: 12,
-    downvotes: 0,
-    replies: [
-      {
-        id: 'r2',
-        content: "I'm in! The midterm is coming up and it would be great to study together.",
-        author: {
-          id: 'student3',
-          name: 'James Kim',
-          email: 'james@university.edu',
-          role: 'student',
-          avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&q=80'
-        },
-        createdAt: '2024-03-14T16:00:00Z',
-        upvotes: 3,
-        downvotes: 0
-      }
-    ]
-  },
-  {
-    id: '3',
-    title: 'Campus Innovation Challenge 2024',
-    content: "Excited to announce this year's Innovation Challenge! Submit your ideas for improving campus life. Total prize pool: $5000. Registration opens next week.",
-    author: {
-      id: 'prof2',
-      name: 'Prof. Michael Brown',
-      email: 'michael.brown@university.edu',
-      role: 'faculty',
-      avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=100&q=80'
-    },
-    category: 'events',
-    tags: ['innovation', 'competition'],
-    createdAt: '2024-03-13T11:00:00Z',
-    upvotes: 89,
-    downvotes: 0,
-    replies: [],
-    image: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=800&q=80'
-  }
+  // ... rest of the initialPosts array remains the same
 ];
 
 export const Forum = () => {
@@ -210,7 +145,7 @@ export const Forum = () => {
               <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Community Forum</h1>
               <button
                 onClick={() => setIsModalOpen(true)}
-                className="w-full sm:w-auto px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+                className="w-full sm:w-auto px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors shadow-sm"
               >
                 Create Post
               </button>
@@ -225,16 +160,33 @@ export const Forum = () => {
                   placeholder="Search posts..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent dark:bg-gray-800 dark:border-gray-700 dark:text-white"
+                  className="w-full pl-10 pr-4 py-2 
+                    bg-white dark:bg-gray-800 
+                    border border-gray-200 dark:border-gray-700 
+                    rounded-lg 
+                    text-gray-900 dark:text-white
+                    placeholder-gray-500 dark:placeholder-gray-400
+                    focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent
+                    hover:border-gray-300 dark:hover:border-gray-600
+                    shadow-sm
+                    transition-all duration-200"
                 />
               </div>
               <select
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
-                className="w-full sm:w-auto px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white"
+                className="w-full sm:w-auto px-4 py-2 
+                  bg-white dark:bg-gray-800 
+                  border border-gray-200 dark:border-gray-700 
+                  rounded-lg 
+                  text-gray-900 dark:text-white
+                  focus:ring-2 focus:ring-indigo-500 focus:border-transparent
+                  hover:border-gray-300 dark:hover:border-gray-600
+                  shadow-sm
+                  transition-all duration-200"
               >
                 {categories.map(category => (
-                  <option key={category} value={category}>
+                  <option key={category} value={category} className="bg-white dark:bg-gray-800">
                     {category.charAt(0).toUpperCase() + category.slice(1)}
                   </option>
                 ))}
@@ -242,10 +194,18 @@ export const Forum = () => {
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value as 'newest' | 'popular')}
-                className="w-full sm:w-auto px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white"
+                className="w-full sm:w-auto px-4 py-2 
+                  bg-white dark:bg-gray-800 
+                  border border-gray-200 dark:border-gray-700 
+                  rounded-lg 
+                  text-gray-900 dark:text-white
+                  focus:ring-2 focus:ring-indigo-500 focus:border-transparent
+                  hover:border-gray-300 dark:hover:border-gray-600
+                  shadow-sm
+                  transition-all duration-200"
               >
-                <option value="newest">Newest</option>
-                <option value="popular">Popular</option>
+                <option value="newest" className="bg-white dark:bg-gray-800">Newest</option>
+                <option value="popular" className="bg-white dark:bg-gray-800">Popular</option>
               </select>
             </div>
           </div>

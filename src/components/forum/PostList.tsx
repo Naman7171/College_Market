@@ -6,7 +6,7 @@ import type { ForumPost } from '../../types';
 interface PostListProps {
   posts: ForumPost[];
   onLike: (postId: string) => void;
-  onReply: (postId: string) => void;
+  onReply: (postId: string, content: string) => void;
   replyFormRef: React.RefObject<HTMLDivElement>;
 }
 
@@ -69,7 +69,7 @@ export const PostList: React.FC<PostListProps> = ({ posts, onLike, onReply, repl
                   <span>{post.upvotes} likes</span>
                 </button>
                 <button 
-                  onClick={() => onReply(post.id)}
+                  onClick={() => onReply(post.id, '')}
                   className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
                 >
                   <MessageCircle className="w-5 h-5" />
@@ -122,13 +122,14 @@ export const PostList: React.FC<PostListProps> = ({ posts, onLike, onReply, repl
                   placeholder="Write a reply..."
                   className="w-full px-3 py-2 
                     bg-white dark:bg-gray-800 
-                    border border-gray-300 dark:border-gray-700 
+                    border border-gray-200 dark:border-gray-700 
                     rounded-lg 
                     text-gray-900 dark:text-white
                     placeholder-gray-500 dark:placeholder-gray-400
                     focus:ring-2 focus:ring-indigo-500 focus:border-transparent 
+                    hover:border-gray-300 dark:hover:border-gray-600
                     resize-none
-                    transition-colors duration-200"
+                    transition-all duration-200"
                   rows={3}
                 />
                 <button className="mt-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">

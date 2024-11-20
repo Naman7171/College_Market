@@ -17,7 +17,6 @@ export const CreatePostForm: React.FC<CreatePostFormProps> = ({ onSubmit }) => {
   const [isLoading, setIsLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Mock user - in a real app, this would come from auth context
   const mockUser: User = {
     id: '1',
     name: 'John Doe',
@@ -92,13 +91,15 @@ export const CreatePostForm: React.FC<CreatePostFormProps> = ({ onSubmit }) => {
           onChange={(e) => setContent(e.target.value)}
           className="w-full px-3 py-2 
             bg-white dark:bg-gray-800 
-            border border-gray-300 dark:border-gray-700 
+            border border-gray-200 dark:border-gray-700 
             rounded-lg 
             text-gray-900 dark:text-white
             placeholder-gray-500 dark:placeholder-gray-400
             focus:ring-2 focus:ring-indigo-500 focus:border-transparent
+            hover:border-gray-300 dark:hover:border-gray-600
             min-h-[120px]
-            transition-colors duration-200"
+            shadow-sm
+            transition-all duration-200"
           placeholder="Write your post content..."
           required
         />
@@ -113,11 +114,13 @@ export const CreatePostForm: React.FC<CreatePostFormProps> = ({ onSubmit }) => {
           onChange={(e) => setCategory(e.target.value)}
           className="w-full px-3 py-2 
             bg-white dark:bg-gray-800 
-            border border-gray-300 dark:border-gray-700 
+            border border-gray-200 dark:border-gray-700 
             rounded-lg 
             text-gray-900 dark:text-white
             focus:ring-2 focus:ring-indigo-500 focus:border-transparent
-            transition-colors duration-200"
+            hover:border-gray-300 dark:hover:border-gray-600
+            shadow-sm
+            transition-all duration-200"
         >
           <option value="general">General</option>
           <option value="technical">Technical</option>
