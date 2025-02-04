@@ -4,6 +4,10 @@ export interface User {
   email: string;
   role: 'student' | 'faculty' | 'admin';
   avatar: string;
+  whatsapp?: string;
+  verifiedEmail?: boolean;
+  verifiedStudent?: boolean;
+  verifiedFaculty?: boolean;
 }
 
 export interface Listing {
@@ -16,6 +20,10 @@ export interface Listing {
   seller: User;
   createdAt: string;
   condition: string;
+  expiresAt: string;
+  reported?: boolean;
+  reportCount?: number;
+  suspiciousFlags?: string[];
 }
 
 export interface HousingListing {
@@ -32,9 +40,13 @@ export interface HousingListing {
   available: string;
   landlord: User;
   createdAt: string;
+  expiresAt: string;
   utilities: boolean;
   petsAllowed: boolean;
   furnished: boolean;
+  reported?: boolean;
+  reportCount?: number;
+  suspiciousFlags?: string[];
 }
 
 export interface Message {
@@ -71,6 +83,9 @@ export interface ForumPost {
   upvotes: number;
   downvotes: number;
   replies: ForumReply[];
+  reported?: boolean;
+  reportCount?: number;
+  suspiciousFlags?: string[];
 }
 
 export interface ForumReply {
@@ -80,6 +95,8 @@ export interface ForumReply {
   createdAt: string;
   upvotes: number;
   downvotes: number;
+  reported?: boolean;
+  reportCount?: number;
 }
 
 export interface Resource {
@@ -94,4 +111,24 @@ export interface Resource {
   tags: string[];
   downloads: number;
   size?: string;
+}
+
+export interface Bookmark {
+  id: string;
+  userId: string;
+  itemId: string;
+  itemType: 'listing' | 'housing' | 'event';
+  createdAt: string;
+}
+
+export interface Report {
+  id: string;
+  itemId: string;
+  itemType: 'listing' | 'housing' | 'post' | 'reply';
+  reporterId: string;
+  reason: string;
+  description?: string;
+  status: 'pending' | 'reviewed' | 'resolved' | 'dismissed';
+  createdAt: string;
+  updatedAt: string;
 }
