@@ -6,6 +6,7 @@ import { Marketplace } from './pages/Marketplace';
 import { Housing } from './pages/Housing';
 import { Login } from './pages/Login';
 import { Forum } from './pages/Forum';
+import { Events } from './pages/Events';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
             <Route path="/housing" element={<Housing />} />
             <Route path="/login" element={<Login />} />
             <Route path="/forum" element={<Forum />} />
+            <Route path="/events" element={<Events />} />
           </Routes>
         </main>
       </div>

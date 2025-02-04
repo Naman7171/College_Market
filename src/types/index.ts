@@ -10,6 +10,27 @@ export interface User {
   verifiedFaculty?: boolean;
 }
 
+export interface Event {
+  id: string;
+  title: string;
+  description: string;
+  date: string;
+  endDate: string;
+  location: string;
+  type: string;
+  organizer: User;
+  category <boltAction type="file" filePath="src/types/index.ts">
+  category: string;
+  attendees: User[];
+  maxAttendees: number;
+  registrationDeadline: string;
+  eligibility: string;
+  status: 'active' | 'inactive';
+  visibility: 'public' | 'private';
+  image?: string;
+  department: string;
+}
+
 export interface Listing {
   id: string;
   title: string;
@@ -56,20 +77,6 @@ export interface Message {
   content: string;
   timestamp: string;
   read: boolean;
-}
-
-export interface Event {
-  id: string;
-  title: string;
-  description: string;
-  date: string;
-  location: string;
-  organizer: User;
-  category: string;
-  attendees: User[];
-  maxAttendees?: number;
-  price?: number;
-  image?: string;
 }
 
 export interface ForumPost {
