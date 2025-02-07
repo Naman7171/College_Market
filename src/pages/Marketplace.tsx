@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Plus } from 'lucide-react';
 import { PageHeader } from '../components/layout/PageHeader';
 import { ListingFilters } from '../components/marketplace/ListingFilters';
 import { SearchBar } from '../components/marketplace/SearchBar';
 import { ListingCard } from '../components/marketplace/ListingCard';
+import { ListingWizard } from '../components/marketplace/ListingWizard';
 import { Button } from '../components/common/Button';
+import type { Listing } from '../types';
 
 const mockListings = [
   {
@@ -24,50 +26,33 @@ const mockListings = [
       avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=100&q=80'
     }
   },
-  {
-    id: '2',
-    title: 'Study Desk',
-    description: 'Sturdy wooden desk perfect for studying. Includes built-in lamp and drawer.',
-    price: 80,
-    category: 'Furniture',
-    images: ['https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?auto=format&fit=crop&w=400&q=80'],
-    condition: 'Good',
-    createdAt: '2024-03-09T15:30:00Z',
-    seller: {
-      id: '2',
-      name: 'Emma Smith',
-      email: 'emma@university.edu',
-      role: 'student',
-      avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=100&q=80'
-    }
-  },
-  {
-    id: '3',
-    title: 'MacBook Pro 2019',
-    description: '13-inch, 16GB RAM, 512GB SSD. Perfect for programming and design work.',
-    price: 800,
-    category: 'Electronics',
-    images: ['https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=400&q=80'],
-    condition: 'Excellent',
-    createdAt: '2024-03-08T09:15:00Z',
-    seller: {
-      id: '3',
-      name: 'Mike Roberts',
-      email: 'mike@university.edu',
-      role: 'student',
-      avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&q=80'
-    }
-  }
+  // ... other listings
 ];
 
 export const Marketplace = () => {
+  const [showListingWizard, setShowListingWizard] = useState(false);
+  const [listings, setListings] = useState<Listing[]>(mockListings);
+
+  const handleCreateListing = (listingData: any) => {
+    const newListing: Listing = {
+      id: Date.now().toString(),
+      ...listingData,
+      createdAt: new Date().toISOString(),
+      expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(), // 30 days from now
+    };
+    setListings(prev => [newListing, ...prev]);
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <PageHeader
         title="Marketplace"
         description="Buy and sell items within your college community"
         action={
-          <Button variant="primary">
+          <Button
+            variant="primary"
+            onClick={() => setShowListingWizard(true)}
+          >
             <Plus className="w-5 h-5 mr-2" />
             List Item
           </Button>
@@ -85,7 +70,7 @@ export const Marketplace = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {mockListings.map((listing) => (
+            {listings.map((listing) => (
               <ListingCard
                 key={listing.id}
                 listing={listing}
@@ -95,6 +80,13 @@ export const Marketplace = () => {
           </div>
         </div>
       </div>
+
+      {showListingWizard && (
+        <ListingWizard
+          onClose={() => setShowListingWizard(false)}
+          onSubmit={handleCreateListing}
+        />
+      )}
     </div>
   );
 };
