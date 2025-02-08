@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    color-scheme: light dark;
+  }
+
   body {
     @apply bg-white text-gray-900 transition-colors duration-200;
   }
@@ -36,14 +40,5 @@
 }
 
 .scrollbar-thin::-webkit-scrollbar-thumb {
-  background-color: #E5E7EB;
-  border-radius: 3px;
-}
-
-.dark .scrollbar-thin::-webkit-scrollbar-thumb {
-  background-color: #4B5563;
-}
-
-:root {
-  color-scheme: light dark;
+  @apply bg-gray-200 dark:bg-gray-600 rounded;
 }
