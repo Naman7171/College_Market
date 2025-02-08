@@ -23,12 +23,12 @@ export const HousingCard = ({ listing }: HousingCardProps) => {
       <div className="p-4">
         <div className="flex justify-between items-start mb-2">
           <h3 className="font-semibold text-lg">{listing.title}</h3>
-          <span className="text-xl font-bold text-indigo-600">
-            ${listing.price}/mo
+          <span className="text-xl font-bold text-indigo-600 dark:text-indigo-400">
+            ₹{listing.price}/mo
           </span>
         </div>
         
-        <div className="flex items-center text-gray-600 mb-2">
+        <div className="flex items-center text-gray-600 dark:text-gray-400 mb-2">
           <MapPin className="w-4 h-4 mr-1" />
           <span className="text-sm">{listing.location}</span>
         </div>
@@ -54,13 +54,13 @@ export const HousingCard = ({ listing }: HousingCardProps) => {
           {listing.amenities.slice(0, 3).map((amenity) => (
             <span
               key={amenity}
-              className="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded text-sm"
+              className="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded text-sm text-gray-600 dark:text-gray-400"
             >
               {amenity}
             </span>
           ))}
           {listing.amenities.length > 3 && (
-            <span className="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded text-sm">
+            <span className="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded text-sm text-gray-600 dark:text-gray-400">
               +{listing.amenities.length - 3} more
             </span>
           )}

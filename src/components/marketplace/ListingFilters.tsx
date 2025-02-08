@@ -171,9 +171,9 @@ export const ListingFilters = ({ onFilterChange, className = '' }: ListingFilter
                 type="radio"
                 checked={selectedCategory === category}
                 onChange={() => handleCategoryToggle(category)}
-                className="w-4 h-4 text-primary-600 border-gray-300 rounded-full focus:ring-primary-500"
+                className="w-4 h-4 text-primary-600 border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-full focus:ring-primary-500"
               />
-              <span className="text-sm">{category}</span>
+              <span className="text-sm text-gray-700 dark:text-gray-300">{category}</span>
             </label>
           ))}
         </div>
@@ -184,7 +184,7 @@ export const ListingFilters = ({ onFilterChange, className = '' }: ListingFilter
         <h3 className="font-medium mb-4">Price Range</h3>
         <div className="space-y-4">
           <div className="text-sm text-gray-600 dark:text-gray-400">
-            ${tempPriceRange.min} - ${tempPriceRange.max}
+            ₹{tempPriceRange.min} - ₹{tempPriceRange.max}
           </div>
 
           {/* Suggested price ranges */}
@@ -199,7 +199,7 @@ export const ListingFilters = ({ onFilterChange, className = '' }: ListingFilter
                     : 'hover:bg-gray-50 dark:hover:bg-gray-800'
                   }`}
               >
-                {range.label} (${range.range[0]} - ${range.range[1]})
+                {range.label} (₹{range.range[0]} - ₹{range.range[1]})
               </button>
             ))}
           </div>
@@ -236,9 +236,9 @@ export const ListingFilters = ({ onFilterChange, className = '' }: ListingFilter
                 type="checkbox"
                 checked={filters.conditions.includes(condition)}
                 onChange={() => handleConditionToggle(condition)}
-                className="w-4 h-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500"
+                className="w-4 h-4 text-primary-600 border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded focus:ring-primary-500"
               />
-              <span className="text-sm">{condition}</span>
+              <span className="text-sm text-gray-700 dark:text-gray-300">{condition}</span>
             </label>
           ))}
         </div>
@@ -252,9 +252,23 @@ export const ListingFilters = ({ onFilterChange, className = '' }: ListingFilter
           value={filters.location}
           onChange={(e) => setFilters(prev => ({ ...prev, location: e.target.value }))}
           placeholder="Enter location"
-          className="w-full p-2 border rounded-lg"
+          className="w-full p-2 border rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
         />
       </div>
+      <div>
+          <h3 className="font-medium mb-2">Categories</h3>
+          <select
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+            className="w-full p-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-transparent transition-all duration-200"
+          >
+            {categories.map((category) => (
+              <option key={category} value={category}>
+                {category}
+              </option>
+            ))}
+          </select>
+        </div>
 
       {/* Action Buttons */}
       <div className="flex gap-4 pt-4">
@@ -301,7 +315,7 @@ export const ListingFilters = ({ onFilterChange, className = '' }: ListingFilter
   }
 
   // Desktop view
-  return (
+    return (
     <Card className={`p-4 sticky top-20 ${className}`}>
       <div className="flex items-center justify-between mb-6">
         <h2 className="font-semibold">Filters</h2>
