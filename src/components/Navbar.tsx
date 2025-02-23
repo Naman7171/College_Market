@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
 import { useThemeStore } from '../store/themeStore';
 import { Bell, MessageCircle, Sun, Moon, Menu, X, Calendar } from 'lucide-react';
@@ -41,6 +41,7 @@ export const Navbar = () => {
   const { isDark, toggleTheme } = useThemeStore();
   const { isAuthenticated, user, logout } = useAuthStore();
   const eventDropdownRef = useRef<HTMLDivElement>(null);
+  const location = useLocation();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -53,8 +54,13 @@ export const Navbar = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  // Close mobile menu when route changes
+  useEffect(() => {
+    setIsOpen(false);
+  }, [location.pathname]);
+
   return (
-    <nav className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 fixed w-full z-50 transition-colors duration-200">
+    <nav className="fixed top-0 left-0 right-0 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 z-50 transition-colors duration-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
@@ -66,11 +72,21 @@ export const Navbar = () => {
           </div>
 
           <div className="hidden md:flex items-center space-x-4">
-            <Link to="/marketplace" className="nav-link">Marketplace</Link>
-            <Link to="/housing" className="nav-link">Housing</Link>
+            <Link
+              to="/marketplace"
+              className={`nav-link ${location.pathname === '/marketplace' ? 'text-primary-600 dark:text-primary-400 font-semibold' : ''}`}
+            >
+              Marketplace
+            </Link>
+            <Link
+              to="/housing"
+              className={`nav-link ${location.pathname === '/housing' ? 'text-primary-600 dark:text-primary-400 font-semibold' : ''}`}
+            >
+              Housing
+            </Link>
             <div className="relative" ref={eventDropdownRef}>
               <button
-                className="nav-link flex items-center"
+                className={`nav-link flex items-center ${location.pathname.startsWith('/events') ? 'text-primary-600 dark:text-primary-400 font-semibold' : ''}`}
                 onClick={() => setShowEventDropdown(!showEventDropdown)}
               >
                 Events
@@ -82,15 +98,26 @@ export const Navbar = () => {
                 </div>
               )}
             </div>
-            <Link to="/forum" className="nav-link">Community</Link>
-            
+            <Link
+              to="/forum"
+              className={`nav-link ${location.pathname === '/forum' ? 'text-primary-600 dark:text-primary-400 font-semibold' : ''}`}
+            >
+              Community
+            </Link>
+            <Link
+              to="/lost-and-found"
+              className={`nav-link ${location.pathname === '/lost-and-found' ? 'text-primary-600 dark:text-primary-400 font-semibold' : ''}`}
+            >
+              Lost and Found
+            </Link>
+
             {isAuthenticated ? (
               <>
                 <NotificationPanel />
                 <Link to="/messages" className="p-2 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-full text-gray-600 dark:text-gray-300 transition-colors">
                   <MessageCircle className="w-5 h-5" />
                 </Link>
-                <button 
+                <button
                   onClick={logout}
                   className="bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition-colors"
                 >
@@ -98,14 +125,14 @@ export const Navbar = () => {
                 </button>
               </>
             ) : (
-              <Link 
+              <Link
                 to="/login"
                 className="bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition-colors"
               >
                 Login
               </Link>
             )}
-            
+
             <button
               onClick={toggleTheme}
               className="p-2 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-full text-gray-600 dark:text-gray-300 transition-colors"
@@ -134,22 +161,48 @@ export const Navbar = () => {
       </div>
 
       {/* Mobile menu */}
-      {isOpen && (
-        <div className="md:hidden border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 transition-colors">
+      <div className={`md:hidden transition-all duration-200 ease-in-out ${isOpen ? 'max-h-screen' : 'max-h-0 overflow-hidden'}`}>
+        <div className="border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 transition-colors">
           <div className="px-2 pt-2 pb-3 space-y-1">
-            <Link to="/marketplace" className="mobile-nav-link block">Marketplace</Link>
-            <Link to="/housing" className="mobile-nav-link block">Housing</Link>
-            <Link to="/events" className="mobile-nav-link block">Events</Link>
-            <Link to="/forum" className="mobile-nav-link block">Community</Link>
+            <Link
+              to="/marketplace"
+              className={`mobile-nav-link block ${location.pathname === '/marketplace' ? 'text-primary-600 dark:text-primary-400 font-semibold' : ''}`}
+            >
+              Marketplace
+            </Link>
+            <Link
+              to="/housing"
+              className={`mobile-nav-link block ${location.pathname === '/housing' ? 'text-primary-600 dark:text-primary-400 font-semibold' : ''}`}
+            >
+              Housing
+            </Link>
+            <Link
+              to="/events"
+              className={`mobile-nav-link block ${location.pathname.startsWith('/events') ? 'text-primary-600 dark:text-primary-400 font-semibold' : ''}`}
+            >
+              Events
+            </Link>
+            <Link
+              to="/forum"
+              className={`mobile-nav-link block ${location.pathname === '/forum' ? 'text-primary-600 dark:text-primary-400 font-semibold' : ''}`}
+            >
+              Community
+            </Link>
+            <Link
+              to="/lost-and-found"
+              className={`mobile-nav-link block ${location.pathname === '/lost-and-found' ? 'text-primary-600 dark:text-primary-400 font-semibold' : ''}`}
+            >
+              Lost and Found
+            </Link>
             {isAuthenticated ? (
-              <button 
+              <button
                 onClick={logout}
                 className="w-full text-left mobile-nav-link"
               >
                 Logout
               </button>
             ) : (
-              <Link 
+              <Link
                 to="/login"
                 className="mobile-nav-link block"
               >
@@ -158,7 +211,7 @@ export const Navbar = () => {
             )}
           </div>
         </div>
-      )}
+      </div>
     </nav>
   );
 };

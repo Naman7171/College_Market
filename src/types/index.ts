@@ -19,7 +19,6 @@ export interface Event {
   location: string;
   type: string;
   organizer: User;
-  category <boltAction type="file" filePath="src/types/index.ts">
   category: string;
   attendees: User[];
   maxAttendees: number;
@@ -93,6 +92,7 @@ export interface ForumPost {
   reported?: boolean;
   reportCount?: number;
   suspiciousFlags?: string[];
+  image?: string;
 }
 
 export interface ForumReply {
@@ -138,4 +138,13 @@ export interface Report {
   status: 'pending' | 'reviewed' | 'resolved' | 'dismissed';
   createdAt: string;
   updatedAt: string;
+}
+
+export interface LostItem {
+  id: string;
+  itemName: string;
+  description: string;
+  location: string;
+  dateLost: string;
+  contactInfo: string;
 }

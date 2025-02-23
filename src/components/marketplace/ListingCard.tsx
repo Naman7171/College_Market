@@ -15,8 +15,8 @@ interface ListingCardProps {
   isBookmarked?: boolean;
 }
 
-export const ListingCard = ({ 
-  listing, 
+export const ListingCard = ({
+  listing,
   onContact,
   onReport,
   onBookmarkToggle,
@@ -43,7 +43,7 @@ export const ListingCard = ({
         <div className="flex justify-between items-start mb-2">
           <h3 className="font-semibold text-lg">{listing.title}</h3>
           <span className="text-xl font-bold text-primary-600 dark:text-primary-400">
-            ${listing.price}
+            ₹{listing.price}
           </span>
         </div>
         
@@ -52,10 +52,10 @@ export const ListingCard = ({
         </p>
 
         <div className="flex flex-wrap gap-2 mb-3">
-          <span className="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded text-sm">
+          <span className="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded text-sm text-gray-600 dark:text-gray-300">
             {listing.condition}
           </span>
-          <span className="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded text-sm">
+          <span className="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded text-sm text-gray-600 dark:text-gray-300">
             {listing.category}
           </span>
         </div>
@@ -71,7 +71,7 @@ export const ListingCard = ({
               <span className="text-sm font-medium block">
                 {listing.seller.name}
               </span>
-              <VerificationBadge 
+              <VerificationBadge
                 type={listing.seller.role === 'faculty' ? 'faculty' : 'student'}
                 className="mt-1"
               />
