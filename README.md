@@ -115,6 +115,5 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## Contact
 
-Made with ❤️ by [Your Name]  
-GitHub: [@your-username](https://github.com/your-username)  
-LinkedIn: [Your LinkedIn](https://www.linkedin.com/in/yourprofile)
+Made with ❤️ by Naman Joshi  
+
